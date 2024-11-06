@@ -11,7 +11,48 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+'''yaml
+---
+# public data
+# NDB config
+ndb_ip: 
+ndb_port: 
+basic_auth: 
+nx_cluster_id:
+ssh_public_key:
+clustered:
+
+# Instance Settings
+database_type: 
+instance_name:
+database_description:
+softwareProfileId:
+softwareProfileVersionId:
+computeProfileId:
+networkProfileId:
+dbParameterProfileId:
+
+# Time Machine settings
+time_machine_description:
+sla_id:
+
+# Action Arguments
+listener_port:
+database_size:
+auto_tune_staging_drive:
+allocate_pg_hugepage:
+cluster_database:
+enable_peer_auth:
+ensure_vm_host_distribution:
+dbserver_description:
+database_names:
+db_password:
+
+# nodes management
+vm_name: 
+network_profile_id:
+vm_password:
+'''
 
 Dependencies
 ------------
@@ -22,7 +63,7 @@ Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-'''
+'''yaml
     - hosts: servers
       roles:
          - { role: arguxx.create_db_from_ndb }
