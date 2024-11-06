@@ -11,7 +11,7 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 Role Variables
 --------------
 
-'''yaml
+```yaml
 ---
 # public data
 # NDB config
@@ -52,7 +52,7 @@ db_password:
 vm_name: 
 network_profile_id:
 vm_password:
-'''
+```
 
 Dependencies
 ------------
@@ -63,11 +63,11 @@ Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-'''yaml
+```yaml
     - hosts: servers
       roles:
          - { role: arguxx.create_db_from_ndb }
-'''
+```
 License
 -------
 
