@@ -1,0 +1,40 @@
+---
+# public data
+# NDB config
+ndb_ip: 
+ndb_port: 
+basic_auth: 
+nx_cluster_id:
+ssh_public_key:
+clustered:
+
+# Instance Settings
+database_type: 
+instance_name:
+database_description:
+softwareProfileId:
+softwareProfileVersionId:
+computeProfileId:
+networkProfileId:
+dbParameterProfileId:
+
+# Time Machine settings
+time_machine_description:
+sla_id:
+
+# Action Arguments
+listener_port:
+database_size:
+auto_tune_staging_drive:
+allocate_pg_hugepage:
+cluster_database:
+enable_peer_auth:
+ensure_vm_host_distribution:
+dbserver_description:
+database_names:
+db_password:
+
+# nodes management
+vm_name: 
+network_profile_id:
+vm_password:
