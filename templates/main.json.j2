@@ -12,13 +12,13 @@
             "createDbserver": true,
             "nodeCount": 1,
             "nxClusterId": "{{ nx_cluster_id }}",
-            "sshPublicKey": {{ ssh_public_key }},
-            "clustered": {{ clustered }},
+            "sshPublicKey": "{{ ssh_public_key }}",
+            "clustered": "{{ clustered }}",
             "nodes": [
                 {
                     "properties": [],
                     "vmName": "{{ vm_name }}",
-                    "networkProfileId": {{ network_profile_id }}
+                    "networkProfileId": "{{ network_profile_id }}"
                 }
             ],
             "vmPassword": "{{ vm_password }}",

@@ -1,18 +1,41 @@
 ---
-# main task here
-- name: Perform a POST create DB
-  ansible.builtin.uri:
-      url: https://{{ ndb_ip }}:{{ ndb_port }}/era/v0.9/databases/provision
-      validate_certs: no
-      method: POST
-      headers:
-          Content-Type: "application/json"
-          Authorization: "Basic {{ basic_auth }}"
-      body: |
-      body_format: json
-      return_content: yes
-  register: response
+- name: Prepare body based on variable
+  block:
+      - name: Render JSON body template
+        ansible.builtin.template:
+            src: "main.json.j2"
+            dest: /tmp/rendered_body.json
+        register: rendered_body
 
-- name: Print response
-  debug:
-      var: response.content
+      - name: Read rendered JSON body
+        ansible.builtin.slurp:
+            src: /tmp/rendered_body.json
+        register: body_content
+
+      - name: Set body content as variable
+        set_fact:
+            body: "{{ body_content['content'] | b64decode }}"
+
+- name: Post and fetch response
+  block:
+      - name: Perform a POST create DB
+        ansible.builtin.uri:
+            url: https://{{ ndb_ip }}:{{ ndb_port }}/era/v0.9/databases/provision
+            validate_certs: no
+            method: POST
+            headers:
+                Content-Type: "application/json"
+                Authorization: "Basic {{ basic_auth }}"
+            body: "{{ body }}"
+            body_format: json
+            return_content: yes
+        register: response
+
+      - name: Print response
+        debug:
+            var: response.content
+
+- name: Remove rendered body file
+  ansible.builtin.file:
+      path: /tmp/rendered_body.json
+      state: absent
