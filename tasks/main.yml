@@ -1,121 +1,41 @@
 ---
-# main task here
-- name: Perform a POST create DB
-  ansible.builtin.uri:
-      url: https://{{ ndb_ip }}:{{ ndb_port }}/era/v0.9/databases/provision
-      validate_certs: no
-      method: POST
-      headers:
-          Content-Type: "application/json"
-          Authorization: "Basic {{ basic_auth }}"
-      body: |
-        {
-            "databaseType": "{{ database_type }}",
-            "name": "{{ instance_name }}",
-            "databaseDescription": "{{ database_description }}",
-            "softwareProfileId": "{{ softwareProfileId }}",
-            "softwareProfileVersionId": "{{ softwareProfileVersionId }}f,
-            "computeProfileId": "{{ computeProfileId }}",
-            "networkProfileId": "{{ networkProfileId }}",
-            "dbParameterProfileId": "{{ dbParameterProfileId }}",
-            "timeMachineInfo": {
-                "name": "{{ instance_name }}_TM",
-                "description": "{{ time_machine_description }}",
-                "slaId": "{{ sla_id }}",
-                "schedule": {
-                    "snapshotTimeOfDay": {
-                        "hours": 1,
-                        "minutes": 0,
-                        "seconds": 0
-                    },
-                    "continuousSchedule": {
-                        "enabled": true,
-                        "logBackupInterval": 30,
-                        "snapshotsPerDay": 1
-                    },
-                    "weeklySchedule": {
-                        "enabled": true,
-                        "dayOfWeek": "MONDAY"
-                    },
-                    "monthlySchedule": {
-                        "enabled": true,
-                        "dayOfMonth": "4"
-                    },
-                    "quartelySchedule": {
-                        "enabled": true,
-                        "startMonth": "JANUARY",
-                        "dayOfMonth": "4"
-                    },
-                    "yearlySchedule": {
-                        "enabled": false,
-                        "dayOfMonth": 31,
-                        "month": "DECEMBER"
-                    }
-                },
-                "tags": [],
-                "autoTuneLogDrive": true
-            },
-            "actionArguments": [
-                {
-                    "name": "listener_port",
-                    "value": "{{ listener_port }}"
-                },
-                {
-                    "name": "database_size",
-                    "value": "{{ database_size }}"
-                },
-                {
-                    "name": "auto_tune_staging_drive",
-                    "value": {{ auto_tune_staging_drive }}
-                },
-                {
-                    "name": "allocate_pg_hugepage",
-                    "value": {{ allocate_pg_hugepage }}
-                },
-                {
-                    "name": "cluster_database",
-                    "value": {{ cluster_database }}
-                },
-                {
-                    "name": "enable_peer_auth",
-                    "value": {{ enable_peer_auth }}
-                },
-                {
-                    "name": "ensure_vm_host_distribution",
-                    "value": {{ ensure_vm_host_distribution }}
-                },
-                {
-                    "name": "dbserver_description",
-                    "value": {{ dbserver_description }}
-                },
-                {
-                    "name": "database_names",
-                    "value": {{ database_names }}
-                },
-                {
-                    "name": "db_password",
-                    "value": {{ db_password }}
-                }
-            ],
-            "createDbserver": true,
-            "nodeCount": 1,
-            "nxClusterId": "{{ nx_cluster_id }}",
-            "sshPublicKey": {{ ssh_public_key }},
-            "clustered": {{ clustered }},
-            "nodes": [
-                {
-                    "properties": [],
-                    "vmName": "{{ vm_name }}",
-                    "networkProfileId": {{ network_profile_id }}
-                }
-            ],
-            "vmPassword": "{{ vm_password }}",
-            "autoTuneStagingDrive": true
-        }
-      body_format: json
-      return_content: yes
-  register: response
+- name: Prepare body based on variable
+  block:
+      - name: Render JSON body template
+        ansible.builtin.template:
+            src: "main.json.j2"
+            dest: /tmp/rendered_body.json
+        register: rendered_body
 
-- name: Print response
-  debug:
-      var: response.content
+      - name: Read rendered JSON body
+        ansible.builtin.slurp:
+            src: /tmp/rendered_body.json
+        register: body_content
+
+      - name: Set body content as variable
+        set_fact:
+            body: "{{ body_content['content'] | b64decode }}"
+
+- name: Post and fetch response
+  block:
+      - name: Perform a POST create DB
+        ansible.builtin.uri:
+            url: https://{{ ndb_ip }}:{{ ndb_port }}/era/v0.9/databases/provision
+            validate_certs: no
+            method: POST
+            headers:
+                Content-Type: "application/json"
+                Authorization: "Basic {{ basic_auth }}"
+            body: "{{ body }}"
+            body_format: json
+            return_content: yes
+        register: response
+
+      - name: Print response
+        debug:
+            var: response.content
+
+- name: Remove rendered body file
+  ansible.builtin.file:
+      path: /tmp/rendered_body.json
+      state: absent

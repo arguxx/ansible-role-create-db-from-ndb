@@ -1,0 +1,26 @@
+        {
+            "databaseType": "{{ database_type }}",
+            "name": "{{ instance_name }}",
+            "databaseDescription": "{{ database_description }}",
+            "softwareProfileId": "{{ softwareProfileId }}",
+            "softwareProfileVersionId": "{{ softwareProfileVersionId }}",
+            "computeProfileId": "{{ computeProfileId }}",
+            "networkProfileId": "{{ networkProfileId }}",
+            "dbParameterProfileId": "{{ dbParameterProfileId }}",
+            "timeMachineInfo": {% include "time_machine/main.json.j2" %},
+            "actionArguments": {% include "variable_list/variable.json.j2" %},
+            "createDbserver": true,
+            "nodeCount": 1,
+            "nxClusterId": "{{ nx_cluster_id }}",
+            "sshPublicKey": "{{ ssh_public_key }}",
+            "clustered": "{{ clustered }}",
+            "nodes": [
+                {
+                    "properties": [],
+                    "vmName": "{{ vm_name }}",
+                    "networkProfileId": "{{ network_profile_id }}"
+                }
+            ],
+            "vmPassword": "{{ vm_password }}",
+            "autoTuneStagingDrive": true
+        }

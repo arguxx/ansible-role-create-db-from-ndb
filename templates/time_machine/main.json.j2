@@ -1,0 +1,37 @@
+{
+    "name": "{{ instance_name }}_TM",
+    "description": "{{ time_machine_description }}",
+    "slaId": "{{ sla_id }}",
+    "schedule": {
+        "snapshotTimeOfDay": {
+            "hours": 1,
+            "minutes": 0,
+            "seconds": 0
+        },
+        "continuousSchedule": {
+            "enabled": true,
+            "logBackupInterval": 30,
+            "snapshotsPerDay": 1
+        },
+        "weeklySchedule": {
+            "enabled": true,
+            "dayOfWeek": "MONDAY"
+        },
+        "monthlySchedule": {
+            "enabled": true,
+            "dayOfMonth": "4"
+        },
+        "quartelySchedule": {
+            "enabled": true,
+            "startMonth": "JANUARY",
+            "dayOfMonth": "4"
+        },
+        "yearlySchedule": {
+            "enabled": false,
+            "dayOfMonth": 31,
+            "month": "DECEMBER"
+        }
+    },
+    "tags": [],
+    "autoTuneLogDrive": true
+}
