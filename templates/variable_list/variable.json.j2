@@ -9,23 +9,23 @@
     },
     {
         "name": "auto_tune_staging_drive",
-        "value": "{{ auto_tune_staging_drive }}"
+        "value": "{{ auto_tune_staging_drive | default('true') }}"
     },
     {
         "name": "allocate_pg_hugepage",
-        "value": "{{ allocate_pg_hugepage }}"
+        "value": "{{ allocate_pg_hugepage | default('false') }}"
     },
     {
         "name": "cluster_database",
-        "value": "{{ cluster_database }}"
+        "value": "{{ cluster_database | default('false') }}"
     },
     {
         "name": "enable_peer_auth",
-        "value": "{{ enable_peer_auth }}"
+        "value": "{{ enable_peer_auth | default('false') }}"
     },
     {
         "name": "ensure_vm_host_distribution",
-        "value": "{{ ensure_vm_host_distribution }}"
+        "value": "{{ ensure_vm_host_distribution | default('false') }}"
     },
     {
         "name": "dbserver_description",
