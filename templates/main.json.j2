@@ -13,7 +13,7 @@
             "nodeCount": 1,
             "nxClusterId": "{{ nx_cluster_id }}",
             "sshPublicKey": "{{ ssh_public_key }}",
-            "clustered": "{{ clustered }}",
+            "clustered": "false",
             "nodes": [
                 {
                     "properties": [],
@@ -22,5 +22,12 @@
                 }
             ],
             "vmPassword": "{{ vm_password }}",
+            "tags": [
+                {
+                "tagId": "3d05e80a-7923-4672-b878-fe9a8c4c578e",
+                "tagName": "peg",
+                "value": "PEG-12"
+                }
+            ],
             "autoTuneStagingDrive": true
         }
