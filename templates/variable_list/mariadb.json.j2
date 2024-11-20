@@ -1,0 +1,31 @@
+[
+  {
+      "name": "listener_port",
+      "value": "{{ listener_port }}"
+  },
+  {
+      "name": "database_size",
+      "value": "{{ database_size }}"
+  },
+  {
+      "name": "auto_tune_staging_drive",
+      "value": true
+  },
+  {
+      "name": "database_names",
+      "value": "{{ database_names }}"
+  },
+  {
+      "name": "db_password",
+      "value": "{{ db_password }}"
+  },
+  {
+      "name": "pre_create_script",
+      "value": ""
+  },
+  {
+      "name": "post_create_script",
+      "value": "curl --location --request POST '{{ middleware_protocol }}://{{ middleware_url }}:{{ middleware_port }}/api/jira/transition/ndb?cardId={{ card_id }}&vmUsername=era&dbUsername=root&port={{ listener_port }}' --header 'Content-Type: application/json'"
+  }
+]
+

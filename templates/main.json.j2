@@ -1,33 +1,33 @@
+{
+    "databaseType": "{{ database_type }}",
+    "name": "{{ instance_name }}",
+    "databaseDescription": "{{ database_description }}",
+    "softwareProfileId": "{{ softwareProfileId }}",
+    "softwareProfileVersionId": "{{ softwareProfileVersionId }}",
+    "computeProfileId": "{{ computeProfileId }}",
+    "networkProfileId": "{{ networkProfileId }}",
+    "dbParameterProfileId": "{{ dbParameterProfileId }}",
+    "timeMachineInfo": {% include "time_machine/main.json.j2" %},
+    "actionArguments": {% include "variable_list/postgres.json.j2" if lookup('env', 'database_names') == "postgres" else "variable_list/mariadb.json.j2" %},
+    "createDbserver": true,
+    "nodeCount": 1,
+    "nxClusterId": "{{ nx_cluster_id }}",
+    "sshPublicKey": "{{ ssh_public_key }}",
+    "clustered": "false",
+    "nodes": [
         {
-            "databaseType": "{{ database_type }}",
-            "name": "{{ instance_name }}",
-            "databaseDescription": "{{ database_description }}",
-            "softwareProfileId": "{{ softwareProfileId }}",
-            "softwareProfileVersionId": "{{ softwareProfileVersionId }}",
-            "computeProfileId": "{{ computeProfileId }}",
-            "networkProfileId": "{{ networkProfileId }}",
-            "dbParameterProfileId": "{{ dbParameterProfileId }}",
-            "timeMachineInfo": {% include "time_machine/main.json.j2" %},
-            "actionArguments": {% include "variable_list/variable.json.j2" %},
-            "createDbserver": true,
-            "nodeCount": 1,
-            "nxClusterId": "{{ nx_cluster_id }}",
-            "sshPublicKey": "{{ ssh_public_key }}",
-            "clustered": "false",
-            "nodes": [
-                {
-                    "properties": [],
-                    "vmName": "{{ vm_name }}",
-                    "networkProfileId": "{{ network_profile_id }}"
-                }
-            ],
-            "vmPassword": "{{ vm_password }}",
-            "tags": [
-                {
-                "tagId": "3d05e80a-7923-4672-b878-fe9a8c4c578e",
-                "tagName": "peg",
-                "value": "PEG-12"
-                }
-            ],
-            "autoTuneStagingDrive": true
+            "properties": [],
+            "vmName": "{{ vm_name }}",
+            "networkProfileId": "{{ network_profile_id }}"
         }
+    ],
+    "vmPassword": "{{ vm_password }}",
+    "tags": [
+        {
+        "tagId": "3d05e80a-7923-4672-b878-fe9a8c4c578e",
+        "tagName": "peg",
+        "value": "PEG-12"
+        }
+    ],
+    "autoTuneStagingDrive": true
+}

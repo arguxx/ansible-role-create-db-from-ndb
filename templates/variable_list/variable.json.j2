@@ -38,5 +38,13 @@
     {
         "name": "db_password",
         "value": "{{ db_password }}"
+    },
+    {
+        "name": "pre_create_script",
+        "value": ""
+    },
+    {
+        "name": "post_create_script",
+        "value": "MY_IP=$(ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -d/ -f1); curl --location --request POST '{{ middleware_protocol }}://{{ middleware_url }}:{{ middleware_port }}/api/jira/transition/ndb?cardId={{ card_id }}&vmUsername=era&dbUsername=postgres&port={{ listener_port }}&ip=${MY_IP}' --header 'Content-Type: application/json'"
     }
 ]
